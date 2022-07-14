@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 mongoose.connect(
-    "mongodb+srv://Hisnaider:if_be_or_notBe_return_question@taskmenager.btdlrv4.mongodb.net/test"
+    process.env.MONGODB_URL
     ).then(
-        (result)=>console.log("Conectado!\n"+result)
+        (result)=>console.log("Conectado!")
     ).catch(
         (err)=>console.log("Falha ao conectar!")
 )

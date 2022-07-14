@@ -9,7 +9,14 @@ const taskSchema = new mongoose.Schema({
     completo:{
         type:Boolean,
         default:false
+    },
+    dono:{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref:"Users"
     }
+},{
+    timestamps:true
 })
 
 module.exports = mongoose.model("Tasks", taskSchema)

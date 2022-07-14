@@ -1,74 +1,49 @@
 const express = require('express');
 require("./dp/mongoose")
-const User = require("./models/User")
-const Task = require("./models/Task")
+
+const userRouter = require("./routers/user")
+const taskRouter = require("./routers/task")
 
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT
 
 app.use(express.json())
-
-
-//users
-app.post("/users", (req, res) => {
-    const user = new User(req.body)
-    user.save().then(() =>{
-        res.send(user)
-    }).catch((err) => {
-        res.status(400).send(err)
-    })
-})
-
-app.get("/users",(req, res) => {
-    User.find({}).then((users) => {
-        res.send(users)
-    }).catch((err) => {
-        res.status(500).send()
-    })
-})
-
-app.get("/user/:id",(req, res) => {
-    const _id = req.params.id
-    User.findById(_id).then((user) => {
-        if (!user) return res.status(404).send()
-        res.send(user)
-    }).catch((err) => {
-        res.status(500).send()
-    })
-})
-
-
-//tasks
-app.post("/tasks", (req, res) => {
-    const task = new Task(req.body)
-    task.save().then(() => {
-        res.send(task)
-    }).catch((err) => {
-        res.status(400).send(err)
-    })
-})
-
-app.get("/tasks",(req, res) => {
-    Task.find({}).then((tasks) => {
-        res.send(tasks)
-    }).catch((err) => {
-        res.status(500).send()
-    })
-})
-
-app.get("/task/:id",(req, res) => {
-    const _id = req.params.id
-    Task.findById(_id).then((task) => {
-        if (!task) return res.status(404).send()
-        res.send(task)
-    }).catch((err) => {
-        res.status(500).send()
-    })
-})
-
-
-
+app.use(userRouter)
+app.use(taskRouter)
 
 app.listen(port, ()=> {
     console.log("Express conectado! Porta: "+port)
 })
+
+// const bcrypt = require("bcryptjs")
+
+// const teste = async () =>{
+//     const password = "merda3000"
+//     const hashpassword = await bcrypt.hash(password, 8)
+//     const isMatch = await bcrypt.compare("merda3000", hashpassword)
+//     console.log(`${password}\n${hashpassword}\n${isMatch}`)
+// }
+
+// const jwt = require("jsonwebtoken")
+
+// const teste = async() =>{
+//     const token = jwt.sign({id:123, seila:456}, "teste", {expiresIn: "1 seconds"})
+//     console.log(token)
+//     const info = jwt.verify(token, "teste")
+//     console.log(info)
+// }
+
+// teste()
+
+// const Task = require('./models/Task')
+// const User = require('./models/User')
+
+// const teste = async() =>{
+//     // const task = Task.findById("62cd77e20ed94b05a5e528eb")
+//     // task.populate(["dono"]).then((result) =>console.log(result.dono)).catch((err) =>console.log(err))
+
+//     const user = User.findById("62cd5b523ba0c7e978da24ed")
+//     user.populate(["tasks"]).then((result) => console.log(result.tasks)).catch((err) =>console.log(err))
+// }
+
+// teste()
